@@ -4,25 +4,28 @@
 
   (import (scheme base)
           (sr ck)
-          (sr ck kernel))
+          (sr ck kernel)
+          (sr ck lists)
+          (sr ck maps))
 
   (begin
 
+    (define-syntax $filter-cons
+      (syntax-rules (quote)
+        ((_ s 'pred 'x 'xs) ($ s ($if ($call 'pred 'x)
+                                     '($attach 'xs 'x)
+                                     ''xs ))) ) )
     (define-syntax $filter
       (syntax-rules (quote)
-        ((_ s 'pred 'list)                  ($ s ($filter 'pred 'list '())))
-        ((_ s 'pred '()      'result)       ($ s 'result))
-        ((_ s 'pred '(a . d) '(result ...)) ($ s ($filter 'pred 'd
-                                                   ($if ($call 'pred 'a)
-                                                       ''(result ... a)
-                                                       ''(result ...) ) ))) ) )
+        ((_ s 'pred 'list) ($ s ($fold '($filter-cons 'pred) '() 'list))) ) )
+
+    (define-syntax $partition-cons
+      (syntax-rules (quote)
+        ((_ s 'pred 'x '(ts fs)) ($ s ($if ($call 'pred 'x)
+                                          '($list ($attach 'ts 'x) 'fs)
+                                          '($list 'ts ($attach 'fs 'x)) ))) ) )
     (define-syntax $partition
       (syntax-rules (quote)
-        ((_ s 'pred 'list)     ($ s ($partition 'pred 'list '() '())))
-        ((_ s 'pred '() 't 'f) ($ s '(t f)))
-        ((_ s 'pred '(a . d) '(t ...) '(f ...))
-         ($ s ($if ($call 'pred 'a)
-                  '($partition 'pred 'd '(t ... a) '(f ...))
-                  '($partition 'pred 'd '(t ...) '(f ... a)) )) ) ) )
+        ((_ s 'pred 'list) ($ s ($fold '($partition-cons 'pred) '(() ()) 'list))) ) )
 
 ) )
