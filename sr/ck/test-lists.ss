@@ -23,6 +23,68 @@
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;
 
+(define-test-case (ck-lists:list "CK functions for lists: $list")
+
+  (define-test ("$list one")
+    (assert-equal '(1)
+      ($ ($quote ($list '1))) ) )
+
+  (define-test ("$list some")
+    (assert-equal '(1 foo (3))
+      ($ ($quote ($list '1 'foo ($list '3)))) ) )
+
+  (define-test ("$list none")
+    (assert-equal '()
+      ($ ($quote ($list))) ) )
+)
+(verify-test-case! ck-lists:list)
+
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;
+
+(define-test-case (ck-lists:append "CK functons for lists: $append")
+
+  (define-test ("$append simple")
+    (assert-equal '(1 2 3 4 5)
+      ($ ($quote ($append '(1 2 3) '(4 5)))) ) )
+
+  (define-test ("$append to empty")
+    (assert-equal '(1 2 3)
+      ($ ($quote ($append '() '(1 2 3)))) ) )
+
+  (define-test ("$append an empty")
+    (assert-equal '(1 2 3)
+      ($ ($quote ($append '(1 2 3) '()))) ) )
+
+  (define-test ("$append two empties")
+    (assert-equal '()
+      ($ ($quote ($append '() '()))) ) )
+)
+(verify-test-case! ck-lists:append)
+
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;
+
+(define-test-case (ck-lists:attach "CK functons for lists: $attach")
+
+  (define-test ("$attach one")
+    (assert-equal '(1 2 3 4)
+      ($ ($quote ($attach '(1 2 3) '4))) ) )
+
+  (define-test ("$attach several")
+    (assert-equal '(1 2 3 4 5 6)
+      ($ ($quote ($attach '(1 2 3) '4 '5 '6))) ) )
+
+  (define-test ("$attach none")
+    (assert-equal '(1 2 3)
+      ($ ($quote ($attach '(1 2 3)))) ) )
+
+  (define-test ("$attach to an empty list")
+    (assert-equal '(1 2)
+      ($ ($quote ($attach '() '1 '2))) ) )
+)
+(verify-test-case! ck-lists:attach)
+
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;
+
 (define-test-case (ck-lists:map "CK functions for lists: $map")
 
   (define-test ("$map empty")

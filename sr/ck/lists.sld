@@ -1,6 +1,6 @@
 (define-library (sr ck lists)
 
-  (export $cons $map $reverse $span $filter $partition)
+  (export $cons $list $append $attach $map $reverse $span $filter $partition)
 
   (import (scheme base)
           (sr ck)
@@ -12,6 +12,18 @@
     (define-syntax $cons
       (syntax-rules (quote)
         ((_ s 'a 'd) ($ s '(a . d))) ) )
+
+    (define-syntax $list
+      (syntax-rules (quote)
+        ((_ s 'xs ...) ($ s '(xs ...))) ) )
+
+    (define-syntax $append
+      (syntax-rules (quote)
+        ((_ s '(xs ...) '(ys ...)) ($ s '(xs ... ys ...))) ) )
+
+    (define-syntax $attach
+      (syntax-rules (quote)
+        ((_ s '(xs ...) 'ys ...) ($ s '(xs ... ys ...))) ) )
 
     (define-syntax $map
       (syntax-rules (quote)
