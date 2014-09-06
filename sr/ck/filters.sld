@@ -1,6 +1,6 @@
 (define-library (sr ck filters)
 
-  (export $filter $partition)
+  (export $filter $partition $multi-partition)
 
   (import (scheme base)
           (sr ck)
@@ -27,5 +27,16 @@
     (define-syntax $partition
       (syntax-rules (quote)
         ((_ s 'pred 'list) ($ s ($fold '($partition-cons 'pred) '(() ()) 'list))) ) )
+
+    (define-syntax $mp-cons
+      (syntax-rules (quote)
+        ((_ s 'pred '(rest . done))
+         ($ s ($mp-cons 'pred 'done ($partition 'pred 'rest))))
+        ((_ s 'pred 'done '(true false))
+         ($ s '(false true . done))) ) )
+
+    (define-syntax $multi-partition
+      (syntax-rules (quote)
+        ((_ s 'preds 'list) ($ s ($reverse ($fold '$mp-cons ($list 'list) 'preds)))) ) )
 
 ) )

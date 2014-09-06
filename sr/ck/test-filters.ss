@@ -50,3 +50,33 @@
       ($ ($quote ($partition '($same? '1) '(a 1 b 1 c 1 d)))) ) )
 )
 (verify-test-case! ck-list-filters:partition)
+
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;
+
+(define-test-case (ck-list-filters:multi-partition "CK filter functions for lists: $multi-partition")
+
+  (define-test ("empty value list")
+    (assert-equal '(() () ())
+      ($ ($quote ($multi-partition '($list? $bool?) '()))) ) )
+
+  (define-test ("empty predicate list")
+    (assert-equal '((#f 2 (3) x))
+      ($ ($quote ($multi-partition '() '(#f 2 (3) x)))) ) )
+
+  (define-test ("example partitioning")
+    (assert-equal '(((3)) (#f) (2 x))
+      ($ ($quote ($multi-partition '($list? $bool?) '(#f 2 (3) x)))) ) )
+
+  (define-test ("excess predicates")
+    (assert-equal '(() (#f #t) ())
+      ($ ($quote ($multi-partition '($list? $bool?) '(#f #t)))) ) )
+
+  (define-test ("partial predicates")
+    (assert-equal '((2) (1 3))
+      ($ ($quote ($multi-partition '(($same? '2)) '(1 2 3)))) ) )
+
+  (define-test ("first left-to-right match")
+    (assert-equal '((#f #f) (#t #t) ())
+      ($ ($quote ($multi-partition '(($same? '#f) $bool?) '(#f #t #f #t)))) ) )
+)
+(verify-test-case! ck-list-filters:multi-partition)
