@@ -1,6 +1,6 @@
 (define-library (sr ck lists)
 
-  (export $cons $list $append $attach $reverse $concatenate)
+  (export $cons $car $cdr $list $append $attach $reverse $concatenate)
 
   (import (scheme base)
           (sr ck)
@@ -11,6 +11,14 @@
     (define-syntax $cons
       (syntax-rules (quote)
         ((_ s 'a 'd) ($ s '(a . d))) ) )
+
+    (define-syntax $car
+      (syntax-rules (quote)
+        ((_ s '(a . d)) ($ s 'a)) ) )
+
+    (define-syntax $cdr
+      (syntax-rules (quote)
+        ((_ s '(a . d)) ($ s 'd)) ) )
 
     (define-syntax $list
       (syntax-rules (quote)

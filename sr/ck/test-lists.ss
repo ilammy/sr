@@ -9,7 +9,7 @@
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;
 
-(define-test-case (ck-lists:cons "CK functions for lists: $cons")
+(define-test-case (ck-lists:cons "CK functions for lists: $cons, $car, $cdr")
 
   (define-test ("$cons pair")
     (assert-equal '(1 . 2)
@@ -18,6 +18,22 @@
   (define-test ("$cons list")
     (assert-equal '(a b c)
       ($ ($quote ($cons 'a ($cons 'b ($cons 'c '()))))) ) )
+
+  (define-test ("$car of a pair")
+    (assert-equal '1
+      ($ ($quote ($car ($cons '1 '2)))) ) )
+
+  (define-test ("$cdr of a pair")
+    (assert-equal '2
+      ($ ($quote ($cdr ($cons '1 '2)))) ) )
+
+  (define-test ("$car of a list")
+    (assert-equal 'a
+      ($ ($quote ($car '(a b c)))) ) )
+
+  (define-test ("$cdr of a list")
+    (assert-equal '(b c)
+      ($ ($quote ($cdr '(a b c)))) ) )
 )
 (verify-test-case! ck-lists:cons)
 
