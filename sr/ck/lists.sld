@@ -18,7 +18,10 @@
 
     (define-syntax $append
       (syntax-rules (quote)
-        ((_ s '(xs ...) '(ys ...)) ($ s '(xs ... ys ...))) ) )
+        ((_ s) ($ s '()))
+        ((_ s '(xs ...)) ($ s '(xs ...)))
+        ((_ s '(xs ...) '(ys ...) 'other ...)
+         ($ s ($append '(xs ... ys ...) 'other ...))) ) )
 
     (define-syntax $attach
       (syntax-rules (quote)

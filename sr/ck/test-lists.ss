@@ -43,6 +43,10 @@
 
 (define-test-case (ck-lists:append "CK functons for lists: $append")
 
+  (define-test ("$append none")
+    (assert-equal '()
+      ($ ($quote ($append))) ) )
+
   (define-test ("$append simple")
     (assert-equal '(1 2 3 4 5)
       ($ ($quote ($append '(1 2 3) '(4 5)))) ) )
@@ -58,6 +62,10 @@
   (define-test ("$append two empties")
     (assert-equal '()
       ($ ($quote ($append '() '()))) ) )
+
+  (define-test ("$append several lists")
+    (assert-equal '(1 2 3 4 5 6)
+      ($ ($quote ($append '(1 2) '(3 4 5) '() '(6)))) ) )
 )
 (verify-test-case! ck-lists:append)
 
