@@ -108,3 +108,21 @@
       ($ ($quote ($reverse '(z y x)))) ) )
 )
 (verify-test-case! ck-lists:reverse)
+
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;
+
+(define-test-case (ck-lists:concatenate "CK functions for lists: $concatenate")
+
+  (define-test ("$concatenate empty")
+    (assert-equal '()
+      ($ ($quote ($concatenate '()))) ) )
+
+  (define-test ("$concatenate one")
+    (assert-equal '(1)
+      ($ ($quote ($concatenate '((1))))) ) )
+
+  (define-test ("$concatenate more")
+    (assert-equal '(x y z)
+      ($ ($quote ($concatenate '((x) (y z) ())))) ) )
+)
+(verify-test-case! ck-lists:concatenate)

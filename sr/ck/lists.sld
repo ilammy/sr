@@ -1,6 +1,6 @@
 (define-library (sr ck lists)
 
-  (export $cons $list $append $attach $reverse)
+  (export $cons $list $append $attach $reverse $concatenate)
 
   (import (scheme base)
           (sr ck)
@@ -32,5 +32,9 @@
         ((_ s 'list)            ($ s ($reverse 'list '())))
         ((_ s '() 'result)      ($ s 'result))
         ((_ s '(a . d) 'result) ($ s ($reverse 'd ($cons 'a 'result)))) ) )
+
+    (define-syntax $concatenate
+      (syntax-rules (quote)
+        ((_ s 'lists) ($ s ($apply '$append 'lists))) ) )
 
 ) )
