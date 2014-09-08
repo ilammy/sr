@@ -1,13 +1,11 @@
 (define-library (sr ck predicates)
 
-  (export $symbol?
-          $bool?
-          $list?
-          $same?
-          $or)
+  (export $symbol? $bool? $list? $same?
+          $or $and)
 
   (import (scheme base)
-          (sr ck))
+          (sr ck)
+          (sr ck kernel))
 
   (begin
 
@@ -65,8 +63,15 @@
 
     (define-syntax $or
       (syntax-rules (quote)
-        ((_ s '#t 'other ...) ($ s '#t))
-        ((_ s '#f) ($ s '#f))
-        ((_ s '#f 'other ...) ($ s ($or 'other ...))) ) )
+        ((_ s 'expr)            ($ s ($eval 'expr)))
+        ((_ s 'expr 'other ...) ($ s ($if ($eval 'expr)
+                                         ''#t
+                                         '($or 'other ...) ))) ) )
+    (define-syntax $and
+      (syntax-rules (quote)
+        ((_ s 'expr)            ($ s ($eval 'expr)))
+        ((_ s 'expr 'other ...) ($ s ($if ($eval 'expr)
+                                         '($and 'other ...)
+                                         ''#f ))) ) )
 
 ) )

@@ -121,15 +121,34 @@
 
 (define-test-case (ck-predicates:or "CK predicate functions: $or")
 
-  (define-test () (false? ($or '#f)))
-  (define-test () (true?  ($or '#t)))
+  (define-test () (false? ($or ''#f)))
+  (define-test () (true?  ($or ''#t)))
 
-  (define-test () (false? ($or '#f '#f)))
-  (define-test () (true?  ($or '#f '#t)))
-  (define-test () (true?  ($or '#t '#f)))
-  (define-test () (true?  ($or '#t '#t)))
+  (define-test () (false? ($or ''#f ''#f)))
+  (define-test () (true?  ($or ''#f ''#t)))
+  (define-test () (true?  ($or ''#t ''#f)))
+  (define-test () (true?  ($or ''#t ''#t)))
 
-  (define-test () (false? ($or '#f '#f '#f '#f '#f)))
-  (define-test () (true?  ($or '#f '#f '#f '#f '#f '#f '#f '#t '#f)))
+  (define-test () (false? ($or ''#f ''#f ''#f)))
+  (define-test () (true?  ($or ''#f ''#f ''#f ''#t ''#f)))
+  (define-test () (true?  ($or ''#t '(some syntax error))))
 )
 (verify-test-case! ck-predicates:or)
+
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;
+
+(define-test-case (ck-predicates:and "CK predicate functions: $and")
+
+  (define-test () (false? ($and ''#f)))
+  (define-test () (true?  ($and ''#t)))
+
+  (define-test () (false? ($and ''#f ''#f)))
+  (define-test () (false? ($and ''#f ''#t)))
+  (define-test () (false? ($and ''#t ''#f)))
+  (define-test () (true?  ($and ''#t ''#t)))
+
+  (define-test () (true?  ($and ''#t ''#t ''#t)))
+  (define-test () (false? ($and ''#t ''#t ''#t ''#f ''#t)))
+  (define-test () (false? ($and ''#f '(some syntax error))))
+)
+(verify-test-case! ck-predicates:and)
