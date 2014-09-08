@@ -1,7 +1,8 @@
 (define-library (sr ck predicates)
 
   (export $symbol? $bool? $list? $same?
-          $or $and)
+          $or $and
+          $every?)
 
   (import (scheme base)
           (sr ck)
@@ -73,5 +74,10 @@
         ((_ s 'expr 'other ...) ($ s ($if ($eval 'expr)
                                          '($and 'other ...)
                                          ''#f ))) ) )
+    (define-syntax $every?
+      (syntax-rules (quote)
+        ((_ s 'pred '())         ($ s '#t))
+        ((_ s 'pred '(x xs ...)) ($ s ($and '($call 'pred 'x)
+                                            '($every? 'pred '(xs ...)) ))) ) )
 
 ) )

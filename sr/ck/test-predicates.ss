@@ -152,3 +152,21 @@
   (define-test () (false? ($and ''#f '(some syntax error))))
 )
 (verify-test-case! ck-predicates:and)
+
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;
+
+(define-test-case (ck-predicates:every? "CK predicate functions: $every?")
+
+  (define-test ("empty list")
+    (true? ($every? '$list? '())) )
+
+  (define-test ("example")
+    (true? ($every? '$list? '((1) () (2)))) )
+
+  (define-test ("partial application 1")
+    (false? ($every? '($same? '1) '(1 2 3))) )
+
+  (define-test ("partial application 2")
+    (true? ($every? '($same? 'x) '(x x x))) )
+)
+(verify-test-case! ck-predicates:every?)
