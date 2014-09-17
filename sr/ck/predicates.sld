@@ -2,7 +2,7 @@
 
   (export $symbol? $bool? $list? $same?
           $or $and
-          $every?)
+          $every? $any?)
 
   (import (scheme base)
           (sr ck)
@@ -80,4 +80,9 @@
         ((_ s 'pred '(x xs ...)) ($ s ($and '($call 'pred 'x)
                                             '($every? 'pred '(xs ...)) ))) ) )
 
+    (define-syntax $any?
+      (syntax-rules (quote)
+        ((_ s 'pred '())         ($ s '#f))
+        ((_ s 'pred '(x xs ...)) ($ s ($or '($call 'pred 'x)
+                                           '($any? 'pred '(xs ...)) ))) ) )
 ) )

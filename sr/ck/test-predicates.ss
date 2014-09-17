@@ -170,3 +170,21 @@
     (true? ($every? '($same? 'x) '(x x x))) )
 )
 (verify-test-case! ck-predicates:every?)
+
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;
+
+(define-test-case (ck-predicates:any? "CK predicate functions: $any?")
+
+  (define-test ("empty list")
+    (false? ($any? '$list? '())) )
+
+  (define-test ("example")
+    (true? ($any? '$list? '((1) #f (2)))) )
+
+  (define-test ("partial application 1")
+    (true? ($any? '($same? '1) '(1 2 3))) )
+
+  (define-test ("partial application 2")
+    (false? ($any? '($same? 'x) '(a b c))) )
+)
+(verify-test-case! ck-predicates:any?)
